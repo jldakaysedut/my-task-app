@@ -7,11 +7,16 @@ const bcrypt = require('bcrypt');
 const app = express();
 
 // 1. UPDATED MIDDLEWARE FOR PRODUCTION
-// This allows your specific Vercel URL to talk to this backend
+// Added allowedHeaders and OPTIONS handling to stop the preflight 404/failure
 app.use(cors({
-    origin: "*", // This allows ANY site (like your phone or Vercel) to talk to the backend
-    methods: ["GET", "POST"]
+    origin: "*", 
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+// STEP 2: Explicitly handle preflight requests globally
+app.options('*', cors()); 
+
 app.use(express.json());
 
 // 2. DATABASE CONNECTION
@@ -81,7 +86,7 @@ app.get('/tasks/:userId', (req, res) => {
     });
 });
 
-// ADD TASK (Crucial for Dashboard to work!)
+// ADD TASK
 app.post('/tasks', (req, res) => {
     const { user_id, task_text } = req.body;
     const sql = "INSERT INTO tasks (user_id, task_text) VALUES (?, ?)";
