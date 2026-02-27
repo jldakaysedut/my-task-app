@@ -9,9 +9,8 @@ const app = express();
 // 1. UPDATED MIDDLEWARE FOR PRODUCTION
 // This allows your specific Vercel URL to talk to this backend
 app.use(cors({
-    origin: ["https://your-app-name.vercel.app", "http://localhost:5173"], // Add your actual Vercel URL here
-    methods: ["GET", "POST"],
-    credentials: true
+    origin: "*", // This allows ANY site (like your phone or Vercel) to talk to the backend
+    methods: ["GET", "POST"]
 }));
 app.use(express.json());
 
