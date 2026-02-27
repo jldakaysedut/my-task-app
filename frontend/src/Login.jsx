@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import API from './api'; // Correct path for your structure
+import API from './api'; 
 import './App.css';
 
 function Login() {
@@ -12,12 +12,8 @@ function Login() {
         e.preventDefault();
         try {
             const res = await API.post('/login', { email, password });
-            
-            // Save user info to browser memory (localStorage)
             localStorage.setItem('user', JSON.stringify(res.data.user));
-            
-            alert("Login successful!");
-            navigate('/dashboard'); // We will create this next!
+            navigate('/dashboard');
         } catch (err) {
             alert(err.response?.data?.error || "Login failed");
         }
@@ -27,25 +23,13 @@ function Login() {
         <div className="auth-card">
             <h2>Welcome Back</h2>
             <form onSubmit={handleLogin}>
-                <input 
-                    type="email" 
-                    placeholder="Email Address" 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    required 
-                />
-                <input 
-                    type="password" 
-                    placeholder="Password" 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    required 
-                />
+                <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <button type="submit">Login</button>
             </form>
-            <p className="link-text">
-                Need an account? <Link to="/register">Register</Link>
-            </p>
+            <p className="link-text">Need an account? <Link to="/register">Register</Link></p>
+            <p className="footer-text">y-chan x b-kun 2026</p>
         </div>
     );
 }
-
 export default Login;
