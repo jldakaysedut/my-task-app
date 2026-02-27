@@ -46,34 +46,34 @@ function Dashboard() {
     };
 
     return (
-            // Inside Dashboard.jsx return:
-        <div className="auth-card" style={{ maxWidth: '600px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-                <h2 style={{ fontSize: '1.2rem', margin: 0 }}>System Online</h2>
-                <button onClick={handleLogout} style={{ width: 'auto', padding: '5px 15px', borderColor: 'var(--neon-pink)', color: 'var(--neon-pink)', boxShadow: '0 0 5px var(--neon-pink)' }}>Disconnect</button>
-            </div>
-            
-            <p style={{ color: 'var(--neon-blue)', marginBottom: '20px' }}>User: {user?.email}</p>
+       <div className="auth-card">
+    <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <span style={{ color: 'var(--neon-purple)', fontWeight: 'bold', fontSize: '0.8rem' }}>SYS: ONLINE</span>
+        <button onClick={handleLogout} style={{ width: 'auto', padding: '6px 12px', fontSize: '0.7rem', borderColor: 'var(--neon-pink)', color: 'var(--neon-pink)', boxShadow: 'none' }}>LOGOUT</button>
+    </div>
 
-            <form onSubmit={handleAddTask} style={{ display: 'flex', gap: '10px' }}>
-                <input 
-                    type="text" 
-                    placeholder="Initialize task..." 
-                    value={task}
-                    onChange={(e) => setTask(e.target.value)} 
-                    required 
-                />
-                <button type="submit" style={{ width: '100px', marginTop: '10px' }}>Sync</button>
-            </form>
+    <h2>DASHBOARD</h2>
+    <p style={{ fontSize: '0.8rem', color: '#666', marginBottom: '20px' }}>{user?.email}</p>
 
-            <div style={{ marginTop: '30px' }}>
-                {tasks.map((t) => (
-                    <li key={t.id}>
-                        <span>{t.task_text}</span>
-                        <span style={{ fontSize: '0.7rem', color: 'var(--neon-purple)' }}>[ACTIVE]</span>
-                    </li>
-                ))}
+    <form onSubmit={handleAddTask}>
+        <input 
+            type="text" 
+            placeholder="Initialize new task..." 
+            value={task}
+            onChange={(e) => setTask(e.target.value)} 
+            required 
+        />
+        <button type="submit">Sync Task</button>
+    </form>
+
+    <div className="task-container">
+        {tasks.map((t) => (
+            <div className="task-item" key={t.id}>
+                <span>{t.task_text}</span>
+                <span className="status-tag">Active</span>
             </div>
+        ))}
+    </div>
 </div>
     );
 }
