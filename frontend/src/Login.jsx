@@ -44,6 +44,14 @@ function Login() {
             <p className="link-text">
                 Need an account? <Link to="/register">Register</Link>
             </p>
+
+            // ... inside the return of Login.jsx
+<div className="auth-card">
+    <h2>Welcome Back</h2>
+    {/* ... your existing form and link-text ... */}
+
+    <p className="footer-text">y-chan x b-kun 2026</p>
+</div>
         </div>
     );
 }

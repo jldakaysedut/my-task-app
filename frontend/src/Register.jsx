@@ -40,6 +40,14 @@ function Register() {
             <p className="link-text">
                 Already have an account? <Link to="/login">Log in</Link>
             </p>
+
+            // ... inside the return of Register.jsx
+<div className="auth-card">
+    <h2>Create Account</h2>
+    {/* ... your existing form and link-text ... */}
+
+    <p className="footer-text">y-chan x b-kun 2026</p>
+</div>
         </div>
     );
 }
