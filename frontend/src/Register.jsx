@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import API from './api'; 
+import API from './api'; // Correct path for your structure
 import './App.css';
 
 function Register() {
@@ -13,7 +13,7 @@ function Register() {
         try {
             const res = await API.post('/register', { email, password });
             alert(res.data.message);
-            navigate('/login'); 
+            navigate('/login'); // Move to login after successful registration
         } catch (err) {
             alert(err.response?.data?.error || "Registration failed");
         }
@@ -37,13 +37,10 @@ function Register() {
                 />
                 <button type="submit">Register</button>
             </form>
-
             <p className="link-text">
                 Already have an account? <Link to="/login">Log in</Link>
             </p>
-
-            {/* Signature Footer */}
-            <p className="footer-text">y-chan x b-kun 2026</p>
+            
         </div>
     );
 }
