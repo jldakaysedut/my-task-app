@@ -4,13 +4,18 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 
-const app = express(); // 1. Create the app FIRST
+const app = express();
 
-// 2. Middlewares (Must come after 'app' is created)
+// 1. UPDATED MIDDLEWARE FOR PRODUCTION
+// This allows your specific Vercel URL to talk to this backend
+app.use(cors({
+    origin: ["https://your-app-name.vercel.app", "http://localhost:5173"], // Add your actual Vercel URL here
+    methods: ["GET", "POST"],
+    credentials: true
+}));
 app.use(express.json());
-app.use(cors());
 
-// 3. Database Connection
+// 2. DATABASE CONNECTION
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -28,7 +33,7 @@ db.connect((err) => {
     console.log("✅ Connected to Aiven Cloud Database!");
 });
 
-// 4. Routes
+// 3. ROUTES
 app.get('/', (req, res) => {
     res.send("Backend is running perfectly!");
 });
@@ -40,7 +45,7 @@ app.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         const sql = "INSERT INTO users (email, password) VALUES (?, ?)";
         db.query(sql, [email, hashedPassword], (err, result) => {
-            if (err) return res.status(500).json({ error: "Email already exists!" });
+            if (err) return res.status(500).json({ error: "Database error or Email exists" });
             res.json({ message: "Registration successful!" });
         });
     } catch (error) {
@@ -48,18 +53,16 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// LOGIN (New Code Added Here)
+// LOGIN
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
     const sql = "SELECT * FROM users WHERE email = ?";
-    
     db.query(sql, [email], async (err, results) => {
         if (err) return res.status(500).json({ error: "Database error" });
         if (results.length === 0) return res.status(404).json({ error: "User not found" });
 
         const user = results[0];
         const isMatch = await bcrypt.compare(password, user.password);
-        
         if (!isMatch) return res.status(400).json({ error: "Incorrect password" });
 
         res.json({ 
@@ -69,19 +72,28 @@ app.post('/login', (req, res) => {
     });
 });
 
-// GET TASKS FOR A SPECIFIC USER
+// GET TASKS
 app.get('/tasks/:userId', (req, res) => {
     const { userId } = req.params;
     const sql = "SELECT * FROM tasks WHERE user_id = ? ORDER BY id DESC";
-    
     db.query(sql, [userId], (err, results) => {
         if (err) return res.status(500).json({ error: "Database error" });
         res.json(results);
     });
 });
 
-// 5. Start Server
+// ADD TASK (Crucial for Dashboard to work!)
+app.post('/tasks', (req, res) => {
+    const { user_id, task_text } = req.body;
+    const sql = "INSERT INTO tasks (user_id, task_text) VALUES (?, ?)";
+    db.query(sql, [user_id, task_text], (err, result) => {
+        if (err) return res.status(500).json({ error: "Failed to add task" });
+        res.json({ message: "Task added successfully!" });
+    });
+});
+
+// 4. START SERVER
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Server started on http://localhost:${PORT}`);
+    console.log(`🚀 Server started on port ${PORT}`);
 });
