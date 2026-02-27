@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: 'http://localhost:5000' // We will change this to Render later!
+    // Replace 'your-app-name' with your actual Render service name
+    baseURL: 'https://task-maker-backend.onrender.com' 
 });
 
 export default API;
+
