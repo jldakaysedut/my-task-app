@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import API from './api'; // Correct path for your structure
+import API from './api'; 
 import './App.css';
 
 function Login() {
@@ -17,7 +17,7 @@ function Login() {
             localStorage.setItem('user', JSON.stringify(res.data.user));
             
             alert("Login successful!");
-            navigate('/dashboard'); // We will create this next!
+            navigate('/dashboard'); 
         } catch (err) {
             alert(err.response?.data?.error || "Login failed");
         }
@@ -41,17 +41,13 @@ function Login() {
                 />
                 <button type="submit">Login</button>
             </form>
+
             <p className="link-text">
                 Need an account? <Link to="/register">Register</Link>
             </p>
 
-            // ... inside the return of Login.jsx
-<div className="auth-card">
-    <h2>Welcome Back</h2>
-    {/* ... your existing form and link-text ... */}
-
-    <p className="footer-text">y-chan x b-kun 2026</p>
-</div>
+            {/* Your Signature Footer */}
+            <p className="footer-text">y-chan x b-kun 2026</p>
         </div>
     );
 }

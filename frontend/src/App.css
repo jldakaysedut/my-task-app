@@ -152,3 +152,22 @@ button:hover, button:active {
   /* Soft neon glow */
   text-shadow: 0 0 5px rgba(188, 19, 254, 0.5); 
 }
+
+/* Add this to your App.css */
+.footer-text::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: var(--neon-blue);
+  border-radius: 50%;
+  margin-right: 8px;
+  box-shadow: 0 0 10px var(--neon-blue);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}

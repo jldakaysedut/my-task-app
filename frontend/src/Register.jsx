@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import API from './api'; // Correct path for your structure
+import API from './api'; 
 import './App.css';
 
 function Register() {
@@ -13,7 +13,7 @@ function Register() {
         try {
             const res = await API.post('/register', { email, password });
             alert(res.data.message);
-            navigate('/login'); // Move to login after successful registration
+            navigate('/login'); 
         } catch (err) {
             alert(err.response?.data?.error || "Registration failed");
         }
@@ -37,17 +37,13 @@ function Register() {
                 />
                 <button type="submit">Register</button>
             </form>
+
             <p className="link-text">
                 Already have an account? <Link to="/login">Log in</Link>
             </p>
 
-            // ... inside the return of Register.jsx
-<div className="auth-card">
-    <h2>Create Account</h2>
-    {/* ... your existing form and link-text ... */}
-
-    <p className="footer-text">y-chan x b-kun 2026</p>
-</div>
+            {/* Signature Footer */}
+            <p className="footer-text">y-chan x b-kun 2026</p>
         </div>
     );
 }
